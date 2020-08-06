@@ -1,0 +1,19 @@
+{
+  "name": "hour-booster",
+  "version": "1.0.0",
+  "description": "JS based CS:GO hour booster",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Aatmjeet",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^9.1.2"
+  },
+  "dependencies": {
+    "http-proxy": "^1.18.1",
+    "remote": "^0.2.6",
+    "steam-user": "^4.17.1"
+  }
+}

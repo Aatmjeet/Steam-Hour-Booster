@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <title>Hour Booster</title>
+    <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+  </head>
+  <body style="background-color:#393e46">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <text style = "font size:7 ;color:#ffffff">
+            Steam Hour Booster!
+        </text>
+    </nav>
+    <div class="jumbotron jumbotron-fluid", id='teleport_section' style="padding-left: 30px;padding-right: 30px; padding-bottom: 100px ; padding-top: -100px overflow: hidden;">
+            <div class="row">
+                <div class="card-group w-100">
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            Get Started!
+                        </div>
+                        <div class="card-body">
+                            <div class="container">
+                                <form id="details">
+                                    <div class="form-group">
+                                        <label>Select Game</label>
+                                        <select id = "gameid">
+                                            <option value = "730" selected>CS:GO</option>
+                                            <option value = "570">DOTA2</option>
+                                            <option value = "440">Team Fortress 2</option>
+                                         </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Username</label>
+                                        <input type text class="form-control" id="user">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="pass">Password</label>
+                                        <input type="password" class="form-control" id="pass">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Steam Auth Code</label>
+                                        <input type="password" class="form-control" id="auth">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Start Boosting</button>
+                                </form>
+                            </div>
+                            <div class="card-body">
+                                <button id="stop" type="click" class="btn btn-primary">
+                                    Stop Boosting
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!--<div class="card">
+                        <div class="card-header">
+                            Current Location
+                        </div>
+                    </div>-->
+                </div>
+            </div>
+            <br>
+            <br>
+            <br>
+            <br>
+        </div>
+        <script>
+            const { ipcRenderer } = require('electron');
+
+            const form = document.getElementById("details");
+            form.addEventListener('submit',function(event){
+                event.preventDefault();
+                // Some data that will be sent to the main process
+                const gid = document.getElementById("gameid").value;
+                console.log(gid);
+                const auth = document.getElementById("auth").value;
+                console.log(auth);
+                const name = document.getElementById("user").value;
+                console.log(name);
+                const pass = document.getElementById("pass").value;
+                console.log(pass);
+                let Data = {
+                    gameid: gid,
+                    message: name,
+                    someData: pass,
+                    authcode: auth
+                };
+
+                // Send information to the main process
+                // if a listener has been set, then the main process
+                // will react to the request !
+                ipcRenderer.send('start', Data);
+                form.reset();
+            })
+            const stop = document.getElementById("stop");
+            stop.addEventListener('click',function(event){
+                event.preventDefault();
+                ipcRenderer.send('stop');
+            })
+        </script>
+  </body>
+</html>
